@@ -20,6 +20,7 @@ const createOrganization = function (userID, name, description) {
   });
 };
 
+
 const getOrganization = function (userID) {
   return new Promise((resolve, reject) => {
     connection.query(
@@ -109,7 +110,7 @@ const deleteProject = function (organizationID, id) {
     );
   });
 };
-
+/********I think this update gone be with only the project id because the render will be the organization id***/
 const updateProject = function (id, name, description, organizationID) {
   return new Promise((resolve, reject) => {
     connection.query(
@@ -124,6 +125,50 @@ const updateProject = function (id, name, description, organizationID) {
     );
   });
 };
+/************************** Crud operations for privilege table ***Create & Delete********************************/
+/***********Create Privilege**********************/
+const createPrivilege = function (name) {
+  return new Promise((resolve, reject) => {
+    connection.query(`insert into Privileges set ?`),
+      {name},
+      (e, result) => {
+        if (e) {
+          console.log(e);
+          return reject();
+        }
+        resolve(result);
+      };
+  });
+};
+/***********Delete Privilege**********************/
+const deletePrivilege = function (id) {
+    return new Promise((resolve, reject) => {
+        connection.query(`delete from projects where id=${id}`, (e, result) => {
+            if (e) {
+                console.log(e);
+                return reject();
+            }
+            resolve(result);
+        });
+    });
+};
+
+/******************Create User************************** */
+const createUser = function (username,first_name,last_name,password,email,role,privilege) {
+
+    return new Promise((resolve, reject) => {
+        connection.query(`insert into users set ? `), {username,first_name,last_name,password,email,role,privilege},
+        (e, result) => {
+            if (e) {
+                console.log(e);
+                return reject();
+            }
+            resolve(result);
+        };
+    });
+};
+
+
 
 /***** displaying the connection to the database *****/
 connection.connect((err) => {
@@ -135,7 +180,10 @@ connection.connect((err) => {
   console.log("connected as id " + connection.threadId);
 });
 
+
+
 module.exports = {
+  connection,
   createOrganization,
   getOrganization,
   deleteOrganisation,
@@ -145,4 +193,8 @@ module.exports = {
   getproject,
   deleteProject,
   updateProject,
+
+  /**Users */
+  createUser,
+
 };

@@ -6,8 +6,8 @@ USE project;
 CREATE TABLE users (
   id int NOT NULL AUTO_INCREMENT,
   username varchar(255) NOT NULL UNIQUE,
-  first_name varchar(255) NOT NULL UNIQUE,
-  last_name varchar(255) NOT NULL UNIQUE,
+  first_name varchar(255) NOT NULL ,
+  last_name varchar(255) NOT NULL ,
   password varchar(255) NOT NULL ,
   email varchar(255) NOT NULL UNIQUE,
   role varchar(255) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE users (
 
 CREATE TABLE projects (
   id int NOT NULL AUTO_INCREMENT,
-  name varchar(50) NOT NULL,
+  name varchar(50) NOT NULL UNIQUE,
   description varchar(250),
   organizationID int NOT NULL,
   FOREIGN KEY (organizationID) REFERENCES organizations(id),
@@ -50,26 +50,26 @@ CREATE TABLE Privll_User(
 
 CREATE TABLE Issues(
      id int NOT NULL AUTO_INCREMENT,
-   title varchar(50) NOT NULL UNIQUE,
+   title varchar(50) NOT NULL ,
    description varchar(250) NOT NULL,
-   postedID int NOT NULL,
+   state varchar(50) NOT NULL,
+   posterID int NOT NULL,
    projectID int NOT NULL,
    FOREIGN KEY (projectID) REFERENCES projects(id),
-   FOREIGN KEY (postedID) REFERENCES users(id),
-   state varchar(50) NOT NULL,
+   FOREIGN KEY (posterID) REFERENCES users(id),
    PRIMARY KEY (ID)
 );
 
 
-
-CREATE TABLE Feachers(
+/**********Change the posterID name to userID*********/
+CREATE TABLE Features(
      id int NOT NULL AUTO_INCREMENT,
    title varchar(50) NOT NULL UNIQUE,
    description varchar(250) NOT NULL,
-   postedID int NOT NULL,
+   posterID int NOT NULL,
    projectID int NOT NULL,
    FOREIGN KEY (projectID) REFERENCES projects(id),
-   FOREIGN KEY (postedID) REFERENCES users(id),
+   FOREIGN KEY (posterID) REFERENCES users(id),
    state varchar(50) NOT NULL,
    PRIMARY KEY (ID)
    
@@ -82,7 +82,7 @@ CREATE TABLE Comments(
    issueID int NOT NULL,
     FOREIGN KEY (userID) REFERENCES users(id),
    FOREIGN KEY (issueID) REFERENCES issues(id),
-   createdAt datetime NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
 PRIMARY KEY (ID)
 );
 
