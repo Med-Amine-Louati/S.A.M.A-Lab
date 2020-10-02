@@ -18,8 +18,6 @@ CREATE TABLE users (
    id int NOT NULL AUTO_INCREMENT,
    name varchar(50) NOT NULL UNIQUE,
    description varchar(250) NOT NULL,
-   field varchar(100) NOT NULL,
-   serial int(4) NOT NULL UNIQUE,
    userID int NOT NULL,
    FOREIGN KEY (userID) REFERENCES users(id),
     PRIMARY KEY (ID)

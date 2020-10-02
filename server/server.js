@@ -1,34 +1,31 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const feed = require("../routes/feed.js")
-const organizationRouter = require("../routes/organization.js")
-var signup = require("../routes/signup.js");
-var login = require("../routes/login.js")
-
-
+var express = require("express");
+var bodyParser = require("body-parser");
 const db = require('../db/database.js');
-
-const port =process.env.PORT || 3000;
-var app = express();
+const port = 3000;
+const app = express();
 
 app.use(express.static(__dirname + "/../client/dist"));
 app.use(bodyParser.json());
-app.use("/feed", feed)
-app.use("/organization", organizationRouter)
-app.use("/", signup);
-app.use("/", login);
 
-
-
-
-app.post('/saveProject',async (req,res)=>{
-  console.log('*********',req.body);
+app.post("/create_organization",async (req,res)=>{
   try{
-    await db.createProject(req.body.name , req.body.description)
+    await db.createOrganization(req.body.userID,req.body.name,req.body.description);
   }catch(e){console.log(e)}
-
 })
 
-app.listen( port,  ()=> {
+app.get("/organization/:userID",async (req,res)=>{
+  try{
+    const data = await db.getOrganization(req.params.userID);
+    res.send(data)
+  }catch(e){console.log(e)}
+})
+
+app.post("/deleteOrg",async (req,res)=>{
+  try{
+    await db.deleteOrganisation(req.body.userID,req.body.id)
+  }catch(e){console.log(e)}
+})
+
+app.listen(process.env.PORT || port, function () {
   console.log(`listening on port ${port}!`);
 });

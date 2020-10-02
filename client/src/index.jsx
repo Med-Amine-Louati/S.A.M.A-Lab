@@ -1,21 +1,17 @@
-import ReactDOM from "react-dom";
-import Project from './components/projects.jsx';
-import Organization_Create from "./components/Organization_Create.jsx"
 import React from "react";
-import LanPage from "./components/LanPage.jsx";
-class App extends React.Component {
- 
+import ReactDOM from "react-dom";
+import Login from "./components/authentication/Login.jsx";
+import Signup from "./components/authentication/Signup.jsx";
+import DashBoard from "./components/dashboard/DashBoard.jsx";
 
 
 
+export class App extends React.Component {
   render() {
     return (
-      <div>
-        <LanPage />
-        {/* <Project />
-        <Organization_Create /> */}
-      </div>
+      <DashBoard />
     );
   }
-}
+};
+
 ReactDOM.render(<App />, document.getElementById("app"));
